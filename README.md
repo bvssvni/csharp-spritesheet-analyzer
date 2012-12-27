@@ -26,6 +26,13 @@ http://www.mono-project.com/
 PNG is the only format supported in this version.  
 The PNG file must be cropped to a horizontal sequence.  
 
+##Islands
+
+An "island" is a continiously connected shape surrounded by transparent pixels.  
+Since the islands are packed as rectangles, they can not overlap.
+
+The analyzer can extract the islands for cases when a linear offset + width is not sufficient.
+
 ###Where To Find Sprite Sheets
 
 http://spriters-resource.com
