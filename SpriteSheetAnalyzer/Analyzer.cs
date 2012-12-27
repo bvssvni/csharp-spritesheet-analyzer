@@ -93,6 +93,7 @@ namespace SpriteSheetAnalyzer
 
 		public static List<Fit> FindFit(Pixbuf buf)
 		{
+			bool verbose = false;
 			var list = new List<Fit>();
 
 			// Get the transparent columns in the image.
@@ -102,7 +103,7 @@ namespace SpriteSheetAnalyzer
 			bool invert = true;
 			var g = Group.FromBoolSamples(columns, invert);
 
-			// Console.WriteLine(g.ToString());
+			if (verbose) Console.WriteLine(g.ToString());
 
 			int n = g.Count;
 			if (n == 0) throw new Exception("No sprites founds.");
@@ -114,19 +115,20 @@ namespace SpriteSheetAnalyzer
 			var maxSize = Group.Size(maxInterval);
 			var firstSize = g[1] - g[0];
 			if (firstSize < maxSize) {
-				offsetMin = -(maxSize - firstSize) - 1;
-				// Console.WriteLine(offsetMin);
+				offsetMin = -(maxSize - firstSize) - 2;
+				if (verbose) Console.WriteLine(offsetMin);
 			}
 
 			int offsetMax = g[0];
 			int widthMin = 1;
 			int widthMax = g[2] - offsetMin;
 
-			// Console.WriteLine(offsetMin.ToString() + " offsetMin");
-			// Console.WriteLine(offsetMax.ToString() + " offsetMax");
-			// Console.WriteLine(widthMin.ToString() + " widthMin");
-			// Console.WriteLine(widthMax.ToString() + " widthMax");
+			if (verbose) Console.WriteLine(offsetMin.ToString() + " offsetMin");
+			if (verbose) Console.WriteLine(offsetMax.ToString() + " offsetMax");
+			if (verbose) Console.WriteLine(widthMin.ToString() + " widthMin");
+			if (verbose) Console.WriteLine(widthMax.ToString() + " widthMax");
 
+			// Try to find a combination which matches with the transparent columns.
 			int halfN = n >> 1;
 			for (int offset = offsetMin; offset <= offsetMax; offset++) {
 				for (int width = widthMin; width <= widthMax; width++) {
@@ -145,6 +147,111 @@ namespace SpriteSheetAnalyzer
 					}
 				}
 			}
+
+			return list;
+		}
+
+		/// <summary>
+		/// Joins the intersecting rectangles.
+		/// If two rectangles are joined, it starts over to check for new intersections.
+		/// </summary>
+		/// <param name='list'>
+		/// A list of rectangles which may or may not intersect with each other.
+		/// </param>
+		private static void JoinOverlaps(List<Island> list)
+		{
+		START_OVER:
+			// Construct a new list of joined rectangles.
+			int listCount = list.Count;
+			for (int i = 0; i < listCount; i++) {
+				var r = list[i];
+				for (int j = i + 1; j < listCount; j++) {
+					var s = list[j];
+					
+					// Check for intersection between rectangles.
+					if (s.X + s.Width >= r.X && s.X < r.X + r.Width && 
+					    s.Y + s.Height >= r.Y && s.Y < r.Y + r.Height) {
+						int nx, ny, nw, nh;
+						nx = Math.Min(r.X, s.X);
+						ny = Math.Min(r.Y, s.Y);
+						nw = Math.Max(r.X + r.Width, s.X + s.Width) - nx;
+						nh = Math.Max(r.Y + r.Height, s.Y + s.Height) - ny;
+						list[i] = new Island(nx, ny, nw, nh);
+						list.RemoveAt(j);
+						goto START_OVER;
+					}
+				}
+			}
+		}
+
+		public static bool ExpandRectangle(Island r, int x, int y)
+		{
+			if (x >= r.X && y >= r.Y && x < r.X + r.Width && y < r.Y + r.Height) {
+				return true;
+			}
+
+			if (x >= r.X && x < r.X + r.Width) {
+				if (y == r.Y - 1) {
+					r.Y--;
+					r.Height++;
+					return true;
+				}
+				if (y == r.Y + r.Width) {
+					r.Height++;
+					return true;
+				}
+			}
+			if (y >= r.Y && y < r.Y + r.Height) {
+				if (x == r.X - 1) {
+					r.X--;
+					r.Width++;
+					return true;
+				}
+				if (x == r.X + r.Width) {
+					r.Width++;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static List<Island> FindIslands(Pixbuf buf)
+		{
+			var list = new List<Island>();
+
+			// Grow rectangles when a pixel is touching the edge.
+			// As one pixel might touch two rectangles, the rectangles will overlap.
+			unsafe {
+				byte* start = (byte*)buf.Pixels;
+				int stride = buf.Rowstride;
+				int w = buf.Width;
+				int h = buf.Height;
+
+				for (int y = 0; y < h; y++) {
+					for (int x = 0; x < w; x++) {
+						byte* current = start + x * 4 + y * stride;
+						bool transparent = current[3] == 0;
+						if (transparent) continue;
+
+						// Search through list of rectangles.
+						int listCount = list.Count;
+						bool found = false;
+						for (int i = 0; i < listCount; i++) {
+							found |= ExpandRectangle(list[i], x, y);
+						} // end searching through list of rectangles.
+
+						if (found) continue;
+
+						// Create a new rectangle containing only that pixel.
+						var newRectangle = new Island(x, y, 1, 1);
+						list.Add(newRectangle);
+					}
+				}
+			} // end unsafe block.
+
+			// Join the overlapping rectangles.
+			JoinOverlaps(list);
 
 			return list;
 		}

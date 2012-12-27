@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/SpriteSheetAnalyzer.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="400 300">
+  <widget class="Gtk.Window" id="MainWindow" design-size="478 300">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Sprite Sheet Analyzer</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -62,6 +62,51 @@
           <packing>
             <property name="X">16</property>
             <property name="Y">64</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.RadioButton" id="horizontalRadioButton">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Label" translatable="yes">Horizontal offset + width</property>
+            <property name="Active">True</property>
+            <property name="DrawIndicator">True</property>
+            <property name="HasLabel">True</property>
+            <property name="UseUnderline">True</property>
+            <property name="Group">group1</property>
+          </widget>
+          <packing>
+            <property name="X">150</property>
+            <property name="Y">8</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.RadioButton" id="islandsRadioButton">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Label" translatable="yes">Islands x,y,w,h</property>
+            <property name="DrawIndicator">True</property>
+            <property name="HasLabel">True</property>
+            <property name="UseUnderline">True</property>
+            <property name="Group">group1</property>
+          </widget>
+          <packing>
+            <property name="X">150</property>
+            <property name="Y">32</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Button" id="clipboardButton">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Type">TextOnly</property>
+            <property name="Label" translatable="yes">Copy to Clipboard</property>
+            <property name="UseUnderline">True</property>
+            <signal name="Clicked" handler="clipboardButtionClicked" />
+          </widget>
+          <packing>
+            <property name="X">350</property>
+            <property name="Y">8</property>
           </packing>
         </child>
       </widget>

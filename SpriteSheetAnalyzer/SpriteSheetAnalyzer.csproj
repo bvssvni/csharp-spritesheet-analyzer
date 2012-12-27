@@ -44,6 +44,7 @@
     <Reference Include="Play">
       <HintPath>..\..\csharp-play\Play\bin\Debug\Play.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -58,6 +59,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Analyzer.cs" />
     <Compile Include="Fit.cs" />
+    <Compile Include="Tests.cs" />
+    <Compile Include="Island.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

@@ -8,6 +8,9 @@ public partial class MainWindow
 	private global::Gtk.Label fileLabel;
 	private global::Gtk.Button openFileButton;
 	private global::Gtk.Label outputLabel;
+	private global::Gtk.RadioButton horizontalRadioButton;
+	private global::Gtk.RadioButton islandsRadioButton;
+	private global::Gtk.Button clipboardButton;
 	
 	protected virtual void Build ()
 	{
@@ -54,14 +57,47 @@ public partial class MainWindow
 		global::Gtk.Fixed.FixedChild w4 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.outputLabel]));
 		w4.X = 16;
 		w4.Y = 64;
+		// Container child fixed1.Gtk.Fixed+FixedChild
+		this.horizontalRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Horizontal offset + width"));
+		this.horizontalRadioButton.CanFocus = true;
+		this.horizontalRadioButton.Name = "horizontalRadioButton";
+		this.horizontalRadioButton.DrawIndicator = true;
+		this.horizontalRadioButton.UseUnderline = true;
+		this.horizontalRadioButton.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+		this.fixed1.Add (this.horizontalRadioButton);
+		global::Gtk.Fixed.FixedChild w5 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.horizontalRadioButton]));
+		w5.X = 150;
+		w5.Y = 8;
+		// Container child fixed1.Gtk.Fixed+FixedChild
+		this.islandsRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Islands x,y,w,h"));
+		this.islandsRadioButton.CanFocus = true;
+		this.islandsRadioButton.Name = "islandsRadioButton";
+		this.islandsRadioButton.DrawIndicator = true;
+		this.islandsRadioButton.UseUnderline = true;
+		this.islandsRadioButton.Group = this.horizontalRadioButton.Group;
+		this.fixed1.Add (this.islandsRadioButton);
+		global::Gtk.Fixed.FixedChild w6 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.islandsRadioButton]));
+		w6.X = 150;
+		w6.Y = 32;
+		// Container child fixed1.Gtk.Fixed+FixedChild
+		this.clipboardButton = new global::Gtk.Button ();
+		this.clipboardButton.CanFocus = true;
+		this.clipboardButton.Name = "clipboardButton";
+		this.clipboardButton.UseUnderline = true;
+		this.clipboardButton.Label = global::Mono.Unix.Catalog.GetString ("Copy to Clipboard");
+		this.fixed1.Add (this.clipboardButton);
+		global::Gtk.Fixed.FixedChild w7 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.clipboardButton]));
+		w7.X = 350;
+		w7.Y = 8;
 		this.Add (this.fixed1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 400;
+		this.DefaultWidth = 478;
 		this.DefaultHeight = 300;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.openFileButton.Clicked += new global::System.EventHandler (this.openFileClicked);
+		this.clipboardButton.Clicked += new global::System.EventHandler (this.clipboardButtionClicked);
 	}
 }
