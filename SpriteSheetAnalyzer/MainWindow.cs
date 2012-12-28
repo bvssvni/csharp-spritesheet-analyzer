@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Gtk;
 using Gdk;
+using SpriteSheetAnalyzer;
 
 public partial class MainWindow: Gtk.Window
 {	
@@ -10,6 +12,11 @@ public partial class MainWindow: Gtk.Window
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
+
+		this.islandeditor.IslandsUpdated += delegate(object sender, EventArgs e) {
+			// Refresh the output.
+			RefreshIslandsOutput(islandeditor.Islands);
+		};
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -42,14 +49,7 @@ public partial class MainWindow: Gtk.Window
 		this.outputLabel.Text = strb.ToString();
 	}
 
-	private void AnalyzeIslands(Pixbuf buf)
-	{
-		var rectangles = SpriteSheetAnalyzer.Analyzer.FindIslands(buf);
-		if (rectangles.Count == 0) {
-			this.outputLabel.Text = "(Did not found any island)";
-			return;
-		}
-
+	private void RefreshIslandsOutput(List<Island> rectangles) {
 		var strb = new StringBuilder();
 		for (int i = 0; i < rectangles.Count; i++) {
 			var r = rectangles[i];
@@ -64,6 +64,17 @@ public partial class MainWindow: Gtk.Window
 			strb.Append("},\n");
 		}
 		this.outputLabel.Text = strb.ToString();
+	}
+
+	private void AnalyzeIslands(Pixbuf buf)
+	{
+		var rectangles = SpriteSheetAnalyzer.Analyzer.FindIslands(buf);
+		if (rectangles.Count == 0) {
+			this.outputLabel.Text = "(Did not found any island)";
+			return;
+		}
+
+		RefreshIslandsOutput(rectangles);
 		this.islandeditor.Islands = rectangles;
 	}
 
@@ -80,6 +91,8 @@ public partial class MainWindow: Gtk.Window
 	}
 
 	private void RefreshAnalyze() {
+		if (m_filename == null) return;
+
 		// Analyze the sprite sheet and show fit options.
 		string filename = m_filename;
 		this.outputLabel.Text = "(output)";

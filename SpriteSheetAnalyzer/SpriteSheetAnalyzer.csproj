@@ -63,6 +63,7 @@
     <Compile Include="Island.cs" />
     <Compile Include="IslandEditor.cs" />
     <Compile Include="CheckerPattern.cs" />
+    <Compile Include="LinkIslandsHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

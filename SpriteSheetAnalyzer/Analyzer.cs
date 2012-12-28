@@ -151,39 +151,6 @@ namespace SpriteSheetAnalyzer
 			return list;
 		}
 
-		/// <summary>
-		/// Joins the intersecting rectangles.
-		/// If two rectangles are joined, it starts over to check for new intersections.
-		/// </summary>
-		/// <param name='list'>
-		/// A list of rectangles which may or may not intersect with each other.
-		/// </param>
-		private static void JoinOverlaps(List<Island> list)
-		{
-		START_OVER:
-			// Construct a new list of joined rectangles.
-			int listCount = list.Count;
-			for (int i = 0; i < listCount; i++) {
-				var r = list[i];
-				for (int j = i + 1; j < listCount; j++) {
-					var s = list[j];
-					
-					// Check for intersection between rectangles.
-					if (s.X + s.Width >= r.X && s.X <= r.X + r.Width && 
-					    s.Y + s.Height >= r.Y && s.Y <= r.Y + r.Height) {
-						int nx, ny, nw, nh;
-						nx = Math.Min(r.X, s.X);
-						ny = Math.Min(r.Y, s.Y);
-						nw = Math.Max(r.X + r.Width, s.X + s.Width) - nx;
-						nh = Math.Max(r.Y + r.Height, s.Y + s.Height) - ny;
-						list[i] = new Island(nx, ny, nw, nh);
-						list.RemoveAt(j);
-						goto START_OVER;
-					}
-				}
-			}
-		}
-
 		public static bool ExpandRectangle(Island r, int x, int y)
 		{
 			if (x >= r.X && y >= r.Y && x < r.X + r.Width && y < r.Y + r.Height) {
@@ -251,7 +218,7 @@ namespace SpriteSheetAnalyzer
 			} // end unsafe block.
 
 			// Join the overlapping rectangles.
-			JoinOverlaps(list);
+			Island.JoinOverlaps(list);
 
 			return list;
 		}

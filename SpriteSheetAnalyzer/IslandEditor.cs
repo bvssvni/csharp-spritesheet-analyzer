@@ -5,7 +5,7 @@ using Gdk;
 namespace SpriteSheetAnalyzer
 {
 	/// <summary>
-	/// Allows joining island by drag drop.
+	/// Allows joining island by linking islands together.
 	/// </summary>
 	[System.ComponentModel.ToolboxItem(true)]
 	public class IslandEditor : Gtk.DrawingArea
@@ -13,10 +13,44 @@ namespace SpriteSheetAnalyzer
 		public IslandEditor()
 		{
 			// Insert initialization code here.
+			this.ButtonPressEvent += delegate(object o, Gtk.ButtonPressEventArgs args) {
+				if (m_islands == null) return;
+				if (args.Event.Button == 1) {
+					m_linkIslandsHelper = new LinkIslandsHelper();
+					m_linkIslandsHelper.Step1_SetIslands(m_islands);
+					m_linkIslandsHelper.Step2_SetStart((int)args.Event.X, (int)args.Event.Y);
+					this.QueueDraw();
+				}
+			};
+			this.ButtonReleaseEvent += delegate(object o, Gtk.ButtonReleaseEventArgs args) {
+				if (m_islands == null) return;
+				if (args.Event.Button == 1) {
+					m_linkIslandsHelper.Step3_SetEnd((int)args.Event.X, (int)args.Event.Y);
+					m_linkIslandsHelper.Step4_Join();
+					m_linkIslandsHelper = new LinkIslandsHelper();
+
+					// Tell the owner that the islands are updated.
+					if (this.IslandsUpdated != null) this.IslandsUpdated(this, new EventArgs());
+
+					this.QueueDraw();
+				}
+			};
+			this.MotionNotifyEvent += delegate(object o, Gtk.MotionNotifyEventArgs args) {
+				var state = (ModifierType)args.Event.State;
+				if ((state & ModifierType.Button1Mask) != 0) {
+					m_linkIslandsHelper.Step3_SetEnd((int)args.Event.X, (int)args.Event.Y);
+					this.QueueDraw();
+				}
+			};
+
+			this.Events = EventMask.ButtonPressMask | EventMask.ButtonReleaseMask | EventMask.PointerMotionMask;
 		}
 
 		private Pixbuf m_image;
 		private List<Island> m_islands;
+		private LinkIslandsHelper m_linkIslandsHelper = new LinkIslandsHelper();
+
+		public event EventHandler<EventArgs> IslandsUpdated;
 
 		private void UpdateWidthAndHeightByImage() {
 			if (m_image == null) return;
@@ -43,6 +77,8 @@ namespace SpriteSheetAnalyzer
 			}
 			set {
 				m_islands = value;
+
+				m_linkIslandsHelper.Step1_SetIslands(m_islands);
 			}
 		}
 
@@ -81,10 +117,18 @@ namespace SpriteSheetAnalyzer
 			var gc = new Gdk.GC(window);
 
 			// window.DrawRectangle(gc, true, new Rectangle(0, 0, 100, 100));
-			CheckerPattern.Draw(window, gc, 10);
+			int width = window.FrameExtents.Width;
+			int height = window.FrameExtents.Height;
+			if (m_image != null) {
+				width = m_image.Width;
+				height = m_image.Height;
+			}
+			CheckerPattern.Draw(window, gc, 10, width, height);
 
 			DrawImage(window, gc);
 			DrawIslands(window, gc);
+
+			m_linkIslandsHelper.Step4_Draw(window, gc);
 
 			gc.Dispose();
 

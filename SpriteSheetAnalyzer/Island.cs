@@ -1,4 +1,35 @@
+/*
+spritesheet-analyzer - GAnalyzes a horizontal sprite sheet sequence and finds offset + width.  
+BSD license.  
+by Sven Nilsen, 2012  
+http://www.cutoutpro.com  
+Version: 0.000 in angular degrees version notation  
+http://isprogrammingeasy.blogspot.no/2012/08/angular-degrees-versioning-notation.html  
+
+Redistribution and use in source and binary forms, with or without  
+modification, are permitted provided that the following conditions are met:  
+1. Redistributions of source code must retain the above copyright notice, this  
+list of conditions and the following disclaimer.  
+2. Redistributions in binary form must reproduce the above copyright notice,  
+this list of conditions and the following disclaimer in the documentation  
+and/or other materials provided with the distribution.  
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND  
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED  
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE  
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR  
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;  
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND  
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS  
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+The views and conclusions contained in the software and documentation are those  
+of the authors and should not be interpreted as representing official policies,  
+either expressed or implied, of the FreeBSD Project.  
+*/
+
 using System;
+using System.Collections.Generic;
 
 namespace SpriteSheetAnalyzer
 {
@@ -15,6 +46,63 @@ namespace SpriteSheetAnalyzer
 			this.Y = y;
 			this.Width = w;
 			this.Height = h;
+		}
+
+		public static bool Intersects(Island r, Island s) {
+			return s.X + s.Width >= r.X && s.X <= r.X + r.Width && 
+			 s.Y + s.Height >= r.Y && s.Y <= r.Y + r.Height;
+		}
+
+		public static void Join(List<Island> islands, int i, int j) {
+			if (i == j) return;
+
+			var r = islands[i];
+			var s = islands[j];
+			int nx, ny, nw, nh;
+			nx = Math.Min(r.X, s.X);
+			ny = Math.Min(r.Y, s.Y);
+			nw = Math.Max(r.X + r.Width, s.X + s.Width) - nx;
+			nh = Math.Max(r.Y + r.Height, s.Y + s.Height) - ny;
+			islands[i] = new Island(nx, ny, nw, nh);
+			islands.RemoveAt(j);
+		}
+
+		
+		/// <summary>
+		/// Joins the intersecting rectangles.
+		/// If two rectangles are joined, it starts over to check for new intersections.
+		/// </summary>
+		/// <param name='list'>
+		/// A list of rectangles which may or may not intersect with each other.
+		/// </param>
+		public static void JoinOverlaps(List<Island> list)
+		{
+		START_OVER:
+				// Construct a new list of joined rectangles.
+				int listCount = list.Count;
+			for (int i = 0; i < listCount; i++) {
+				var r = list[i];
+				for (int j = i + 1; j < listCount; j++) {
+					var s = list[j];
+					
+					// Check for intersection between rectangles.
+					if (Island.Intersects(s, r)) {
+						Island.Join(list, i, j);
+						goto START_OVER;
+					}
+				}
+			}
+		}
+
+		public static int HitIndex(List<Island> islands, int x, int y) {
+			int n = islands.Count;
+			for (int i = 0; i < n; i++) {
+				var island = islands[i];
+				if (x >= island.X && y >= island.Y && x < island.X + island.Width && y < island.Y + island.Height) {
+					return i;
+				}
+			}
+			return -1;
 		}
 	}
 }
