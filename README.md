@@ -19,9 +19,15 @@ http://www.mono-project.com/
 1. Download "SpriteSheetAnalyzer.zip".  
 2. Extract the zip file.
 3. Double-click "SpriteSheetAnalyzer.exe".
-4. Click "Open...".
-5. Select "idle.png".
-6. Write down "offset" and "width" for using the sprite animation in your game.
+4. Try example file for practice:  
+    4.1. Click "Open...".  
+    4.2. Select "idle.png".  
+    4.3. Write down "offset" and "width" for using the sprite animation in your game.  
+5. Try "Island" option:  
+    5.1. Select the radio button named "Island".  
+    5.2. Click "Open...".  
+    5.3. Select "idle.png".  
+    5.4. Link together islands using left mouse button in the preview area.  
 
 ##Image formats
 
