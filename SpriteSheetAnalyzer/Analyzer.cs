@@ -169,8 +169,8 @@ namespace SpriteSheetAnalyzer
 					var s = list[j];
 					
 					// Check for intersection between rectangles.
-					if (s.X + s.Width >= r.X && s.X < r.X + r.Width && 
-					    s.Y + s.Height >= r.Y && s.Y < r.Y + r.Height) {
+					if (s.X + s.Width >= r.X && s.X <= r.X + r.Width && 
+					    s.Y + s.Height >= r.Y && s.Y <= r.Y + r.Height) {
 						int nx, ny, nw, nh;
 						nx = Math.Min(r.X, s.X);
 						ny = Math.Min(r.Y, s.Y);

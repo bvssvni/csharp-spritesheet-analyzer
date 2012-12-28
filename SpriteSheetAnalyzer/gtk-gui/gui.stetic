@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/SpriteSheetAnalyzer.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="478 300">
+  <widget class="Gtk.Window" id="MainWindow" design-size="970 414">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Sprite Sheet Analyzer</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -74,6 +74,7 @@
             <property name="HasLabel">True</property>
             <property name="UseUnderline">True</property>
             <property name="Group">group1</property>
+            <signal name="Clicked" handler="horizontalClicked" />
           </widget>
           <packing>
             <property name="X">150</property>
@@ -89,6 +90,7 @@
             <property name="HasLabel">True</property>
             <property name="UseUnderline">True</property>
             <property name="Group">group1</property>
+            <signal name="Clicked" handler="islandsClicked" />
           </widget>
           <packing>
             <property name="X">150</property>
@@ -107,6 +109,32 @@
           <packing>
             <property name="X">350</property>
             <property name="Y">8</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="WidthRequest">700</property>
+            <property name="HeightRequest">300</property>
+            <property name="ShadowType">In</property>
+            <child>
+              <widget class="Gtk.Viewport" id="GtkViewport">
+                <property name="MemberName" />
+                <property name="ShadowType">None</property>
+                <child>
+                  <widget class="SpriteSheetAnalyzer.IslandEditor" id="islandeditor">
+                    <property name="MemberName" />
+                    <property name="WidthRequest">700</property>
+                    <property name="HeightRequest">300</property>
+                    <property name="ShowScrollbars">True</property>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="X">262</property>
+            <property name="Y">64</property>
           </packing>
         </child>
       </widget>

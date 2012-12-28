@@ -11,6 +11,8 @@ public partial class MainWindow
 	private global::Gtk.RadioButton horizontalRadioButton;
 	private global::Gtk.RadioButton islandsRadioButton;
 	private global::Gtk.Button clipboardButton;
+	private global::Gtk.ScrolledWindow GtkScrolledWindow;
+	private global::SpriteSheetAnalyzer.IslandEditor islandeditor;
 	
 	protected virtual void Build ()
 	{
@@ -21,7 +23,6 @@ public partial class MainWindow
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
 		this.fixed1 = new global::Gtk.Fixed ();
-		this.fixed1.Name = "fixed1";
 		this.fixed1.HasWindow = false;
 		// Container child fixed1.Gtk.Fixed+FixedChild
 		this.label2 = new global::Gtk.Label ();
@@ -89,15 +90,37 @@ public partial class MainWindow
 		global::Gtk.Fixed.FixedChild w7 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.clipboardButton]));
 		w7.X = 350;
 		w7.Y = 8;
+		// Container child fixed1.Gtk.Fixed+FixedChild
+		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
+		this.GtkScrolledWindow.WidthRequest = 700;
+		this.GtkScrolledWindow.HeightRequest = 300;
+		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+		global::Gtk.Viewport w8 = new global::Gtk.Viewport ();
+		w8.ShadowType = ((global::Gtk.ShadowType)(0));
+		// Container child GtkViewport.Gtk.Container+ContainerChild
+		this.islandeditor = new global::SpriteSheetAnalyzer.IslandEditor ();
+		this.islandeditor.WidthRequest = 700;
+		this.islandeditor.HeightRequest = 300;
+		this.islandeditor.Name = "islandeditor";
+		w8.Add (this.islandeditor);
+		this.GtkScrolledWindow.Add (w8);
+		this.fixed1.Add (this.GtkScrolledWindow);
+		global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.GtkScrolledWindow]));
+		w11.X = 262;
+		w11.Y = 64;
 		this.Add (this.fixed1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 478;
-		this.DefaultHeight = 300;
+		this.DefaultWidth = 970;
+		this.DefaultHeight = 414;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.openFileButton.Clicked += new global::System.EventHandler (this.openFileClicked);
+		this.horizontalRadioButton.Clicked += new global::System.EventHandler (this.horizontalClicked);
+		this.islandsRadioButton.Clicked += new global::System.EventHandler (this.islandsClicked);
 		this.clipboardButton.Clicked += new global::System.EventHandler (this.clipboardButtionClicked);
 	}
 }

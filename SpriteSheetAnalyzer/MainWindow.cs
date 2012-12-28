@@ -5,6 +5,8 @@ using Gdk;
 
 public partial class MainWindow: Gtk.Window
 {	
+	private string m_filename;
+
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
@@ -62,6 +64,7 @@ public partial class MainWindow: Gtk.Window
 			strb.Append("},\n");
 		}
 		this.outputLabel.Text = strb.ToString();
+		this.islandeditor.Islands = rectangles;
 	}
 
 	/// <summary>
@@ -74,6 +77,28 @@ public partial class MainWindow: Gtk.Window
 	{
 		if (horizontalRadioButton.Active) AnalyzeHorizontal(buf);
 		if (islandsRadioButton.Active) AnalyzeIslands(buf);
+	}
+
+	private void RefreshAnalyze() {
+		// Analyze the sprite sheet and show fit options.
+		string filename = m_filename;
+		this.outputLabel.Text = "(output)";
+		this.fileLabel.Text = System.IO.Path.GetFileName(filename);
+		islandeditor.Islands = null;
+		islandeditor.Image = null;
+		ShowError(null);
+		try {
+			var buf = new Pixbuf(filename);
+			Analyze(buf);
+			// buf.Dispose();
+			islandeditor.Image = buf;
+		}
+		catch (Exception ex) {
+			ShowError(ex.Message);
+		}
+		
+		// Update the island editor.
+		islandeditor.QueueDraw();
 	}
 
 	protected void openFileClicked (object sender, EventArgs e)
@@ -89,19 +114,8 @@ public partial class MainWindow: Gtk.Window
 
 		if (result != ResponseType.Ok) return;
 
-		// Analyze the sprite sheet and show fit options.
-		string filename = dialog.Filename;
-		this.outputLabel.Text = "(output)";
-		this.fileLabel.Text = System.IO.Path.GetFileName(filename);
-		ShowError(null);
-		// try {
-			var buf = new Pixbuf(filename);
-			Analyze(buf);
-			buf.Dispose();
-		//}
-		//catch (Exception ex) {
-		//	ShowError(ex.Message);
-		//}
+		m_filename = dialog.Filename;
+		RefreshAnalyze();
 	}
 
 	protected void clipboardButtionClicked (object sender, EventArgs e)
@@ -109,5 +123,20 @@ public partial class MainWindow: Gtk.Window
 		var atom = Gdk.Atom.Intern("CLIPBOARD", false);
 		var clipboard = Gtk.Clipboard.Get(atom);
 		clipboard.Text = this.outputLabel.Text;
+	}
+
+	protected void radioChanged (object sender, EventArgs e)
+	{
+		this.RefreshAnalyze();
+	}
+
+	protected void horizontalClicked (object sender, EventArgs e)
+	{
+		this.RefreshAnalyze();
+	}
+
+	protected void islandsClicked (object sender, EventArgs e)
+	{
+		this.RefreshAnalyze();
 	}
 }
