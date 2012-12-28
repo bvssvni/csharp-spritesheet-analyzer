@@ -1,4 +1,4 @@
-csharp-spritesheet-analyzer
+Sprite Sheet Analyzer
 ===========================
 
 Analyzes a horizontal sprite sheet sequence and finds offset + width.  
