@@ -157,30 +157,31 @@ namespace SpriteSheetAnalyzer
 				return true;
 			}
 
-			if (x >= r.X && x < r.X + r.Width) {
+			bool expanded = false;
+			if (x >= r.X && x <= r.X + r.Width) {
 				if (y == r.Y - 1) {
 					r.Y--;
 					r.Height++;
-					return true;
+					expanded = true;
 				}
-				if (y == r.Y + r.Width) {
+				if (y == r.Y + r.Height) {
 					r.Height++;
-					return true;
+					expanded = true;
 				}
 			}
-			if (y >= r.Y && y < r.Y + r.Height) {
+			if (y >= r.Y && y <= r.Y + r.Height) {
 				if (x == r.X - 1) {
 					r.X--;
 					r.Width++;
-					return true;
+					expanded = true;
 				}
 				if (x == r.X + r.Width) {
 					r.Width++;
-					return true;
+					expanded = true;
 				}
 			}
 
-			return false;
+			return expanded;
 		}
 
 		public static List<Island> FindIslands(Pixbuf buf)
@@ -205,7 +206,7 @@ namespace SpriteSheetAnalyzer
 						int listCount = list.Count;
 						bool found = false;
 						for (int i = 0; i < listCount; i++) {
-							found |= ExpandRectangle(list[i], x, y);
+							if (ExpandRectangle(list[i], x, y)) found = true;
 						} // end searching through list of rectangles.
 
 						if (found) continue;

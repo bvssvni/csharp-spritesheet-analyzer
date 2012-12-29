@@ -33,7 +33,7 @@ using System.Collections.Generic;
 
 namespace SpriteSheetAnalyzer
 {
-	public class Island
+	public class Island : IComparable
 	{
 		public int X;
 		public int Y;
@@ -48,9 +48,24 @@ namespace SpriteSheetAnalyzer
 			this.Height = h;
 		}
 
+		#region IComparable implementation
+
+		public int CompareTo(object obj)
+		{
+			var island = obj as Island;
+			// if (island == null) return -1;
+
+			if (this.X < island.X) return -1;
+			if (this.X > island.X) return 1;
+
+			return 0;
+		}
+
+		#endregion
+
 		public static bool Intersects(Island r, Island s) {
-			return s.X + s.Width >= r.X && s.X <= r.X + r.Width && 
-			 s.Y + s.Height >= r.Y && s.Y <= r.Y + r.Height;
+			return r.X <= s.X + s.Width && r.Y <= s.Y + s.Height &&
+				r.X + r.Width >= s.X && r.Y + r.Height >= s.Y;
 		}
 
 		public static void Join(List<Island> islands, int i, int j) {
@@ -77,18 +92,20 @@ namespace SpriteSheetAnalyzer
 		/// </param>
 		public static void JoinOverlaps(List<Island> list)
 		{
-		START_OVER:
+			START_OVER:
+			{
 				// Construct a new list of joined rectangles.
 				int listCount = list.Count;
-			for (int i = 0; i < listCount; i++) {
-				var r = list[i];
-				for (int j = i + 1; j < listCount; j++) {
-					var s = list[j];
+				for (int i = 0; i < listCount; i++) {
+					var r = list [i];
+					for (int j = i + 1; j < listCount; j++) {
+						var s = list [j];
 					
-					// Check for intersection between rectangles.
-					if (Island.Intersects(s, r)) {
-						Island.Join(list, i, j);
-						goto START_OVER;
+						// Check for intersection between rectangles.
+						if (Island.Intersects(r, s)) {
+							Island.Join(list, i, j);
+							goto START_OVER;
+						}
 					}
 				}
 			}

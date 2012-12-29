@@ -50,6 +50,7 @@ public partial class MainWindow: Gtk.Window
 	}
 
 	private void RefreshIslandsOutput(List<Island> rectangles) {
+		rectangles.Sort();
 		var strb = new StringBuilder();
 		for (int i = 0; i < rectangles.Count; i++) {
 			var r = rectangles[i];
