@@ -13,6 +13,7 @@ public partial class MainWindow
 	private global::Gtk.Button clipboardButton;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 	private global::SpriteSheetAnalyzer.IslandEditor islandeditor;
+	private global::Gtk.Button cleanImageButton;
 	
 	protected virtual void Build ()
 	{
@@ -23,6 +24,7 @@ public partial class MainWindow
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
 		this.fixed1 = new global::Gtk.Fixed ();
+		this.fixed1.Name = "fixed1";
 		this.fixed1.HasWindow = false;
 		// Container child fixed1.Gtk.Fixed+FixedChild
 		this.label2 = new global::Gtk.Label ();
@@ -110,6 +112,16 @@ public partial class MainWindow
 		global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.GtkScrolledWindow]));
 		w11.X = 262;
 		w11.Y = 64;
+		// Container child fixed1.Gtk.Fixed+FixedChild
+		this.cleanImageButton = new global::Gtk.Button ();
+		this.cleanImageButton.CanFocus = true;
+		this.cleanImageButton.Name = "cleanImageButton";
+		this.cleanImageButton.UseUnderline = true;
+		this.cleanImageButton.Label = global::Mono.Unix.Catalog.GetString ("Clean");
+		this.fixed1.Add (this.cleanImageButton);
+		global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.cleanImageButton]));
+		w12.X = 480;
+		w12.Y = 8;
 		this.Add (this.fixed1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -122,5 +134,6 @@ public partial class MainWindow
 		this.horizontalRadioButton.Clicked += new global::System.EventHandler (this.horizontalClicked);
 		this.islandsRadioButton.Clicked += new global::System.EventHandler (this.islandsClicked);
 		this.clipboardButton.Clicked += new global::System.EventHandler (this.clipboardButtionClicked);
+		this.cleanImageButton.Clicked += new global::System.EventHandler (this.cleanButtonClicked);
 	}
 }

@@ -137,6 +137,20 @@
             <property name="Y">64</property>
           </packing>
         </child>
+        <child>
+          <widget class="Gtk.Button" id="cleanImageButton">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Type">TextOnly</property>
+            <property name="Label" translatable="yes">Clean</property>
+            <property name="UseUnderline">True</property>
+            <signal name="Clicked" handler="cleanButtonClicked" />
+          </widget>
+          <packing>
+            <property name="X">480</property>
+            <property name="Y">8</property>
+          </packing>
+        </child>
       </widget>
     </child>
   </widget>

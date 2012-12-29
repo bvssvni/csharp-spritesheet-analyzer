@@ -109,6 +109,7 @@ public partial class MainWindow: Gtk.Window
 		}
 		catch (Exception ex) {
 			ShowError(ex.Message);
+			Console.WriteLine(ex.ToString());
 		}
 		
 		// Update the island editor.
@@ -151,6 +152,29 @@ public partial class MainWindow: Gtk.Window
 
 	protected void islandsClicked (object sender, EventArgs e)
 	{
+		this.RefreshAnalyze();
+	}
+
+	protected void cleanButtonClicked (object sender, EventArgs e)
+	{
+		if (m_filename == null) return;
+		Pixbuf img = islandeditor.Image;
+		if (img == null) return;
+		
+		// Clean up islands with less than 50 alpha.
+		CleanImageHelper helper = new CleanImageHelper();
+		helper.Step1_SetImage(img);
+		helper.Step2_SetMaxAlpha(50);
+		helper.Step3_Clean();
+
+		ShowError(null);
+		try {
+			img.Save(m_filename, "png");
+		} catch (Exception ex) {
+			ShowError(ex.Message);
+			Console.WriteLine(ex.ToString());
+		}
+
 		this.RefreshAnalyze();
 	}
 }

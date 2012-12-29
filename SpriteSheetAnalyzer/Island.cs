@@ -48,6 +48,15 @@ namespace SpriteSheetAnalyzer
 			this.Height = h;
 		}
 
+		public static Island Clip(Island a, Island b)
+		{
+			int nx = Math.Max(a.X, b.X);
+			int ny = Math.Max(a.Y, b.Y);
+			int nw = Math.Min(a.X + a.Width, b.X + b.Width) - nx;
+			int nh = Math.Min(a.Y + a.Height, b.Y + b.Height) - ny;
+			return new Island(nx, ny, nw, nh);
+		}
+
 		#region IComparable implementation
 
 		public int CompareTo(object obj)
