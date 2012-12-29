@@ -94,7 +94,6 @@ namespace SpriteSheetAnalyzer
 				Console.WriteLine(alpha.ToString());
 				if (alpha >= maxAlpha)  continue;
 
-				Console.WriteLine("Erasing");
 				Erase(img, a);
 			}
 		}
