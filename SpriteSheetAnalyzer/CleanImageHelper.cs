@@ -91,7 +91,6 @@ namespace SpriteSheetAnalyzer
 			byte maxAlpha = m_maxAlpha;
 			foreach (var a in islands) {
 				byte alpha = FindMaxAlpha(m_image, a);
-				Console.WriteLine(alpha.ToString());
 				if (alpha >= maxAlpha)  continue;
 
 				Erase(img, a);

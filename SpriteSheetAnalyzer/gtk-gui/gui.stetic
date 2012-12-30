@@ -65,39 +65,6 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.RadioButton" id="horizontalRadioButton">
-            <property name="MemberName" />
-            <property name="CanFocus">True</property>
-            <property name="Label" translatable="yes">Horizontal offset + width</property>
-            <property name="Active">True</property>
-            <property name="DrawIndicator">True</property>
-            <property name="HasLabel">True</property>
-            <property name="UseUnderline">True</property>
-            <property name="Group">group1</property>
-            <signal name="Clicked" handler="horizontalClicked" />
-          </widget>
-          <packing>
-            <property name="X">150</property>
-            <property name="Y">8</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.RadioButton" id="islandsRadioButton">
-            <property name="MemberName" />
-            <property name="CanFocus">True</property>
-            <property name="Label" translatable="yes">Islands x,y,w,h</property>
-            <property name="DrawIndicator">True</property>
-            <property name="HasLabel">True</property>
-            <property name="UseUnderline">True</property>
-            <property name="Group">group1</property>
-            <signal name="Clicked" handler="islandsClicked" />
-          </widget>
-          <packing>
-            <property name="X">150</property>
-            <property name="Y">32</property>
-          </packing>
-        </child>
-        <child>
           <widget class="Gtk.Button" id="clipboardButton">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
@@ -148,6 +115,34 @@
           </widget>
           <packing>
             <property name="X">480</property>
+            <property name="Y">8</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.ComboBox" id="mode">
+            <property name="MemberName" />
+            <property name="IsTextCombo">True</property>
+            <property name="Items" translatable="yes">Horizontal {offset, width}
+Vertical {offset, width}
+Islands {x, y, w, h}</property>
+            <signal name="Changed" handler="modeChanged" />
+          </widget>
+          <packing>
+            <property name="X">100</property>
+            <property name="Y">8</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Button" id="removeBackgroundButton">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Type">TextOnly</property>
+            <property name="Label" translatable="yes">Remove Background Color</property>
+            <property name="UseUnderline">True</property>
+            <signal name="Clicked" handler="removeBackgroundClicked" />
+          </widget>
+          <packing>
+            <property name="X">532</property>
             <property name="Y">8</property>
           </packing>
         </child>

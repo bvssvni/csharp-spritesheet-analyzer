@@ -91,14 +91,37 @@ namespace SpriteSheetAnalyzer
 			return result;
 		}
 
-		public static List<Fit> FindFit(Pixbuf buf)
+		public static bool[] TransparentRows(Pixbuf buf)
+		{
+			int w = buf.Width;
+			int h = buf.Height;
+			bool[] result = new bool[h];
+			unsafe {
+				byte* start = (byte*)buf.Pixels;
+				int stride = buf.Rowstride;
+				
+				for (int y = 0; y < h; y++) {
+					bool isAlpha = true;
+					for (int x = 0; x < w; x++) {
+						byte* current = start + 4 * x + y * stride;
+						byte alpha = current[3];
+						if (alpha != 0) {
+							isAlpha = false;
+							break;
+						}
+					}
+
+					result[y] = isAlpha;
+				}
+			} // end unsafe block.
+			
+			return result;
+		}
+
+		public static List<Fit> FindFit(bool[] columns)
 		{
 			bool verbose = false;
 			var list = new List<Fit>();
-
-			// Get the transparent columns in the image.
-			// These are used to find the fixed width.
-			var columns = TransparentColumns(buf);
 
 			bool invert = true;
 			var g = Group.FromBoolSamples(columns, invert);
@@ -106,6 +129,10 @@ namespace SpriteSheetAnalyzer
 			if (verbose) Console.WriteLine(g.ToString());
 
 			int n = g.Count;
+			if (n == 2) {
+				list.Add(new Fit(g[0], g[1]-g[0]));
+				return list;
+			}
 			if (n == 0) throw new Exception("No sprites founds.");
 			if ((n % 2) != 0) throw new Exception("Only finite group is allowed.");
 

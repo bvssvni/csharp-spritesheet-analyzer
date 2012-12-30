@@ -8,12 +8,12 @@ public partial class MainWindow
 	private global::Gtk.Label fileLabel;
 	private global::Gtk.Button openFileButton;
 	private global::Gtk.Label outputLabel;
-	private global::Gtk.RadioButton horizontalRadioButton;
-	private global::Gtk.RadioButton islandsRadioButton;
 	private global::Gtk.Button clipboardButton;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 	private global::SpriteSheetAnalyzer.IslandEditor islandeditor;
 	private global::Gtk.Button cleanImageButton;
+	private global::Gtk.ComboBox mode;
+	private global::Gtk.Button removeBackgroundButton;
 	
 	protected virtual void Build ()
 	{
@@ -61,37 +61,15 @@ public partial class MainWindow
 		w4.X = 16;
 		w4.Y = 64;
 		// Container child fixed1.Gtk.Fixed+FixedChild
-		this.horizontalRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Horizontal offset + width"));
-		this.horizontalRadioButton.CanFocus = true;
-		this.horizontalRadioButton.Name = "horizontalRadioButton";
-		this.horizontalRadioButton.DrawIndicator = true;
-		this.horizontalRadioButton.UseUnderline = true;
-		this.horizontalRadioButton.Group = new global::GLib.SList (global::System.IntPtr.Zero);
-		this.fixed1.Add (this.horizontalRadioButton);
-		global::Gtk.Fixed.FixedChild w5 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.horizontalRadioButton]));
-		w5.X = 150;
-		w5.Y = 8;
-		// Container child fixed1.Gtk.Fixed+FixedChild
-		this.islandsRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Islands x,y,w,h"));
-		this.islandsRadioButton.CanFocus = true;
-		this.islandsRadioButton.Name = "islandsRadioButton";
-		this.islandsRadioButton.DrawIndicator = true;
-		this.islandsRadioButton.UseUnderline = true;
-		this.islandsRadioButton.Group = this.horizontalRadioButton.Group;
-		this.fixed1.Add (this.islandsRadioButton);
-		global::Gtk.Fixed.FixedChild w6 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.islandsRadioButton]));
-		w6.X = 150;
-		w6.Y = 32;
-		// Container child fixed1.Gtk.Fixed+FixedChild
 		this.clipboardButton = new global::Gtk.Button ();
 		this.clipboardButton.CanFocus = true;
 		this.clipboardButton.Name = "clipboardButton";
 		this.clipboardButton.UseUnderline = true;
 		this.clipboardButton.Label = global::Mono.Unix.Catalog.GetString ("Copy to Clipboard");
 		this.fixed1.Add (this.clipboardButton);
-		global::Gtk.Fixed.FixedChild w7 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.clipboardButton]));
-		w7.X = 350;
-		w7.Y = 8;
+		global::Gtk.Fixed.FixedChild w5 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.clipboardButton]));
+		w5.X = 350;
+		w5.Y = 8;
 		// Container child fixed1.Gtk.Fixed+FixedChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 		this.GtkScrolledWindow.WidthRequest = 700;
@@ -99,19 +77,19 @@ public partial class MainWindow
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-		global::Gtk.Viewport w8 = new global::Gtk.Viewport ();
-		w8.ShadowType = ((global::Gtk.ShadowType)(0));
+		global::Gtk.Viewport w6 = new global::Gtk.Viewport ();
+		w6.ShadowType = ((global::Gtk.ShadowType)(0));
 		// Container child GtkViewport.Gtk.Container+ContainerChild
 		this.islandeditor = new global::SpriteSheetAnalyzer.IslandEditor ();
 		this.islandeditor.WidthRequest = 700;
 		this.islandeditor.HeightRequest = 300;
 		this.islandeditor.Name = "islandeditor";
-		w8.Add (this.islandeditor);
-		this.GtkScrolledWindow.Add (w8);
+		w6.Add (this.islandeditor);
+		this.GtkScrolledWindow.Add (w6);
 		this.fixed1.Add (this.GtkScrolledWindow);
-		global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.GtkScrolledWindow]));
-		w11.X = 262;
-		w11.Y = 64;
+		global::Gtk.Fixed.FixedChild w9 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.GtkScrolledWindow]));
+		w9.X = 262;
+		w9.Y = 64;
 		// Container child fixed1.Gtk.Fixed+FixedChild
 		this.cleanImageButton = new global::Gtk.Button ();
 		this.cleanImageButton.CanFocus = true;
@@ -119,8 +97,28 @@ public partial class MainWindow
 		this.cleanImageButton.UseUnderline = true;
 		this.cleanImageButton.Label = global::Mono.Unix.Catalog.GetString ("Clean");
 		this.fixed1.Add (this.cleanImageButton);
-		global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.cleanImageButton]));
-		w12.X = 480;
+		global::Gtk.Fixed.FixedChild w10 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.cleanImageButton]));
+		w10.X = 480;
+		w10.Y = 8;
+		// Container child fixed1.Gtk.Fixed+FixedChild
+		this.mode = global::Gtk.ComboBox.NewText ();
+		this.mode.AppendText (global::Mono.Unix.Catalog.GetString ("Horizontal {offset, width}"));
+		this.mode.AppendText (global::Mono.Unix.Catalog.GetString ("Vertical {offset, width}"));
+		this.mode.AppendText (global::Mono.Unix.Catalog.GetString ("Islands {x, y, w, h}"));
+		this.mode.Name = "mode";
+		this.fixed1.Add (this.mode);
+		global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.mode]));
+		w11.X = 100;
+		w11.Y = 8;
+		// Container child fixed1.Gtk.Fixed+FixedChild
+		this.removeBackgroundButton = new global::Gtk.Button ();
+		this.removeBackgroundButton.CanFocus = true;
+		this.removeBackgroundButton.Name = "removeBackgroundButton";
+		this.removeBackgroundButton.UseUnderline = true;
+		this.removeBackgroundButton.Label = global::Mono.Unix.Catalog.GetString ("Remove Background Color");
+		this.fixed1.Add (this.removeBackgroundButton);
+		global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.fixed1 [this.removeBackgroundButton]));
+		w12.X = 532;
 		w12.Y = 8;
 		this.Add (this.fixed1);
 		if ((this.Child != null)) {
@@ -131,9 +129,9 @@ public partial class MainWindow
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.openFileButton.Clicked += new global::System.EventHandler (this.openFileClicked);
-		this.horizontalRadioButton.Clicked += new global::System.EventHandler (this.horizontalClicked);
-		this.islandsRadioButton.Clicked += new global::System.EventHandler (this.islandsClicked);
 		this.clipboardButton.Clicked += new global::System.EventHandler (this.clipboardButtionClicked);
 		this.cleanImageButton.Clicked += new global::System.EventHandler (this.cleanButtonClicked);
+		this.mode.Changed += new global::System.EventHandler (this.modeChanged);
+		this.removeBackgroundButton.Clicked += new global::System.EventHandler (this.removeBackgroundClicked);
 	}
 }

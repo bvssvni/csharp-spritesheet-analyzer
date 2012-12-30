@@ -12,6 +12,7 @@ public partial class MainWindow: Gtk.Window
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
+		this.mode.Active = 0;
 
 		this.islandeditor.IslandsUpdated += delegate(object sender, EventArgs e) {
 			// Refresh the output.
@@ -32,14 +33,31 @@ public partial class MainWindow: Gtk.Window
 		else this.Title = title + ", Error: " + error.ToString();
 	}
 
-	private void AnalyzeHorizontal(Pixbuf buf)
+	private void AnalyzeVertical(Pixbuf buf)
 	{
-		var list = SpriteSheetAnalyzer.Analyzer.FindFit(buf);
+		var list = SpriteSheetAnalyzer.Analyzer.FindFit(Analyzer.TransparentRows(buf));
 		if (list.Count == 0) {
 			this.outputLabel.Text = "(Did not found any sprite frames)";
 			return;
 		}
 
+		var strb = new StringBuilder();
+		for (int i = 0; i < list.Count; i++) {
+			strb.Append("{");
+			strb.Append(list[i].ToString());
+			strb.Append("}\n");
+		}
+		this.outputLabel.Text = strb.ToString();
+	}
+
+	private void AnalyzeHorizontal(Pixbuf buf)
+	{
+		var list = SpriteSheetAnalyzer.Analyzer.FindFit(Analyzer.TransparentColumns(buf));
+		if (list.Count == 0) {
+			this.outputLabel.Text = "(Did not found any sprite frames)";
+			return;
+		}
+		
 		var strb = new StringBuilder();
 		for (int i = 0; i < list.Count; i++) {
 			strb.Append("{");
@@ -79,6 +97,27 @@ public partial class MainWindow: Gtk.Window
 		this.islandeditor.Islands = rectangles;
 	}
 
+	private bool IsHorizontalActive
+	{
+		get {
+			return mode.Active == 0;
+		}
+	}
+
+	private bool IsVerticalActive
+	{
+		get {
+			return mode.Active == 1;
+		}
+	}
+
+	private bool IsIslandsActive
+	{
+		get {
+			return mode.Active == 2;
+		}
+	}
+
 	/// <summary>
 	/// Analyze an image and displays the sequence fit alternatives.
 	/// </summary>
@@ -87,8 +126,9 @@ public partial class MainWindow: Gtk.Window
 	/// </param>
 	public void Analyze(Pixbuf buf)
 	{
-		if (horizontalRadioButton.Active) AnalyzeHorizontal(buf);
-		if (islandsRadioButton.Active) AnalyzeIslands(buf);
+		if (this.IsHorizontalActive) AnalyzeHorizontal(buf);
+		if (this.IsVerticalActive) AnalyzeVertical(buf);
+		if (this.IsIslandsActive) AnalyzeIslands(buf);
 	}
 
 	private void RefreshAnalyze() {
@@ -140,21 +180,6 @@ public partial class MainWindow: Gtk.Window
 		clipboard.Text = this.outputLabel.Text;
 	}
 
-	protected void radioChanged (object sender, EventArgs e)
-	{
-		this.RefreshAnalyze();
-	}
-
-	protected void horizontalClicked (object sender, EventArgs e)
-	{
-		this.RefreshAnalyze();
-	}
-
-	protected void islandsClicked (object sender, EventArgs e)
-	{
-		this.RefreshAnalyze();
-	}
-
 	protected void cleanButtonClicked (object sender, EventArgs e)
 	{
 		if (m_filename == null) return;
@@ -175,6 +200,33 @@ public partial class MainWindow: Gtk.Window
 			Console.WriteLine(ex.ToString());
 		}
 
+		this.RefreshAnalyze();
+	}
+
+	protected void modeChanged (object sender, EventArgs e)
+	{
+		this.RefreshAnalyze();
+	}
+
+	protected void removeBackgroundClicked (object sender, EventArgs e)
+	{
+		if (m_filename == null) return;
+		Pixbuf img = islandeditor.Image;
+		if (img == null) return;
+
+		var helper = new RemoveBackgroundColorHelper();
+		helper.Step1_SetImage(img);
+		helper.Step2_SetDetectByFirstRow();
+		helper.Step3_RemoveBackground();
+
+		ShowError(null);
+		try {
+			img.Save(m_filename, "png");
+		} catch (Exception ex) {
+			ShowError(ex.Message);
+			Console.WriteLine(ex.ToString());
+		}
+		
 		this.RefreshAnalyze();
 	}
 }
