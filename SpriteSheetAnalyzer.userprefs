@@ -1,19 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SpriteSheetAnalyzer/MainWindow.cs">
-    <Files>
-      <File FileName="SpriteSheetAnalyzer/Analyzer.cs" Line="229" Column="24" />
-      <File FileName="SpriteSheetAnalyzer/MainWindow.cs" Line="5" Column="1" />
-      <File FileName="SpriteSheetAnalyzer/Main.cs" Line="13" Column="1" />
-      <File FileName="SpriteSheetAnalyzer/Tests.cs" Line="101" Column="65" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="SpriteSheetAnalyzer" expanded="True">
-            <Node name="MainWindow.cs" selected="True" />
-          </Node>
-        </State>
+        <State expanded="True" />
       </Pad>
       <Pad Id="ClassPad">
         <State expanded="True" selected="True" />
