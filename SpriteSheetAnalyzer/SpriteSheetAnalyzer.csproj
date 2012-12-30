@@ -78,6 +78,8 @@
     <Compile Include="Application\UI.cs" />
     <Compile Include="Application\UIEventArgs.cs" />
     <Compile Include="Actions\ProcessAction.cs" />
+    <Compile Include="Modules\CleanImage.cs" />
+    <Compile Include="Modules\RemoveBackground.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
