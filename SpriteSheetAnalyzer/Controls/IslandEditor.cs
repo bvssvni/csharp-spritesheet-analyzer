@@ -14,16 +14,18 @@ namespace SpriteSheetAnalyzer
 		{
 			// Insert initialization code here.
 			this.ButtonPressEvent += delegate(object o, Gtk.ButtonPressEventArgs args) {
-				if (m_islands == null) return;
+				if (m_app == null) return;
+				if (m_app.Islands == null) return;
 				if (args.Event.Button == 1) {
 					m_linkIslandsHelper = new LinkIslandsHelper();
-					m_linkIslandsHelper.Step1_SetIslands(m_islands);
+					m_linkIslandsHelper.Step1_SetIslands(m_app.Islands);
 					m_linkIslandsHelper.Step2_SetStart((int)args.Event.X, (int)args.Event.Y);
 					this.QueueDraw();
 				}
 			};
 			this.ButtonReleaseEvent += delegate(object o, Gtk.ButtonReleaseEventArgs args) {
-				if (m_islands == null) return;
+				if (m_app == null) return;
+				if (m_app.Islands == null) return;
 				if (args.Event.Button == 1) {
 					m_linkIslandsHelper.Step3_SetEnd((int)args.Event.X, (int)args.Event.Y);
 					m_linkIslandsHelper.Step4_Join();
@@ -46,39 +48,29 @@ namespace SpriteSheetAnalyzer
 			this.Events = EventMask.ButtonPressMask | EventMask.ButtonReleaseMask | EventMask.PointerMotionMask;
 		}
 
-		private Pixbuf m_image;
-		private List<Island> m_islands;
+		private App m_app;
 		private LinkIslandsHelper m_linkIslandsHelper = new LinkIslandsHelper();
 
 		public event EventHandler<EventArgs> IslandsUpdated;
 
 		private void UpdateWidthAndHeightByImage() {
-			if (m_image == null) return;
+			if (m_app == null) return;
+			if (m_app.Image == null) return;
 
-			this.SetSizeRequest(m_image.Width, m_image.Height);
+			var img = m_app.Image;
+			this.SetSizeRequest(img.Width, img.Height);
 		}
 
-		public Pixbuf Image
+		public App App
 		{
 			get {
-				return m_image;
+				return m_app;
 			}
 			set {
-				m_image = value;
+				m_app = value;
 
 				UpdateWidthAndHeightByImage();
-			}
-		}
-
-		public List<Island> Islands
-		{
-			get {
-				return m_islands;
-			}
-			set {
-				m_islands = value;
-
-				m_linkIslandsHelper.Step1_SetIslands(m_islands);
+				m_linkIslandsHelper.Step1_SetIslands(m_app.Islands);
 			}
 		}
 
@@ -90,21 +82,59 @@ namespace SpriteSheetAnalyzer
 
 		private void DrawImage(Window window, Gdk.GC gc)
 		{
-			if (m_image == null) return;
+			if (m_app == null) return;
+			if (m_app.Image == null) return;
 
-			// Console.WriteLine("Draw image");
-			int width = m_image.Width;
-			int height = m_image.Height;
-			window.DrawPixbuf(gc, m_image, 0, 0, 0, 0, width, height, RgbDither.None, 0, 0);
+			var img = m_app.Image;
+			int width = img.Width;
+			int height = img.Height;
+			window.DrawPixbuf(gc, img, 0, 0, 0, 0, width, height, RgbDither.None, 0, 0);
 		}
 
 		private void DrawIslands(Window window, Gdk.GC gc)
 		{
-			if (m_islands == null) return;
+			if (m_app == null) return;
+			if (m_app.Islands == null) return;
 
 			gc.RgbFgColor = new Color(255, 0, 255);
-			foreach (var island in m_islands) {
+			foreach (var island in m_app.Islands) {
 				window.DrawRectangle(gc, false, island.X, island.Y, island.Width, island.Height);
+			}
+		}
+
+		private int DrawingWidth
+		{
+			get {
+				if (m_app == null || m_app.Image == null) return this.GdkWindow.FrameExtents.Width;
+
+				return m_app.Image.Width;
+			}
+		}
+
+		private int DrawingHeight
+		{
+			get {
+				if (m_app == null || m_app.Image == null) return this.GdkWindow.FrameExtents.Height;
+
+				return m_app.Image.Height;
+			}
+		}
+
+		private int RequestWidth
+		{
+			get {
+				if (m_app == null || m_app.Image == null) return 50;
+
+				return m_app.Image.Width;
+			}
+		}
+
+		private int RequestHeight
+		{
+			get {
+				if (m_app == null || m_app.Image == null) return 50;
+
+				return m_app.Image.Height;
 			}
 		}
 
@@ -117,12 +147,8 @@ namespace SpriteSheetAnalyzer
 			var gc = new Gdk.GC(window);
 
 			// window.DrawRectangle(gc, true, new Rectangle(0, 0, 100, 100));
-			int width = window.FrameExtents.Width;
-			int height = window.FrameExtents.Height;
-			if (m_image != null) {
-				width = m_image.Width;
-				height = m_image.Height;
-			}
+			int width = this.DrawingWidth;
+			int height = this.DrawingHeight;
 			CheckerPattern.Draw(window, gc, 10, width, height);
 
 			DrawImage(window, gc);
@@ -143,13 +169,9 @@ namespace SpriteSheetAnalyzer
 
 		protected override void OnSizeRequested(ref Gtk.Requisition requisition)
 		{
-			if (m_image != null) {
-				requisition.Width = m_image.Width;
-				requisition.Height = m_image.Height;
-			}
 			// Calculate desired size here.
-			requisition.Height = 50;
-			requisition.Width = 50;
+			requisition.Height = this.RequestWidth;
+			requisition.Width = this.RequestHeight;
 		}
 	}
 }

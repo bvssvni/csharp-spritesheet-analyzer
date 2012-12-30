@@ -54,9 +54,6 @@ namespace SpriteSheetAnalyzer
 				}
 			}
 
-			// TEST
-			Console.WriteLine(max.ToString());
-
 			byte cred = (byte)((maxColor >> 16) & 0xff);
 			byte cgreen = (byte)((maxColor >> 8) & 0xff);
 			byte cblue = (byte)((maxColor) & 0xff);
@@ -102,11 +99,6 @@ namespace SpriteSheetAnalyzer
 		public void Step3_RemoveBackground()
 		{
 			var color = DetectColorByFirstRow(m_image);
-			// TEST
-			Console.WriteLine("Red " + color.Red);
-			Console.WriteLine("Green " + color.Green);
-			Console.WriteLine("Blue " + color.Blue);
-
 			RemoveBackground(m_image, color);
 		}
 	}

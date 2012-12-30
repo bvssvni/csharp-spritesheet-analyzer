@@ -8,7 +8,8 @@ namespace SpriteSheetAnalyzer
 		public static void Main (string[] args)
 		{
 			Application.Init ();
-			MainWindow win = new MainWindow ();
+			// var win = new MainWindow ();
+			var win = new MainWindow2();
 			win.Show ();
 			Application.Run ();
 		}

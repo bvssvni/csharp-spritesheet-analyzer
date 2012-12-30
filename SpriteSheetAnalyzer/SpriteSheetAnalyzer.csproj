@@ -53,19 +53,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
     <Compile Include="gtk-gui\MainWindow.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Analyzer.cs" />
-    <Compile Include="Fit.cs" />
-    <Compile Include="Tests.cs" />
-    <Compile Include="Island.cs" />
-    <Compile Include="IslandEditor.cs" />
-    <Compile Include="CheckerPattern.cs" />
-    <Compile Include="LinkIslandsHelper.cs" />
-    <Compile Include="CleanImageHelper.cs" />
-    <Compile Include="RemoveBackgroundColorHelper.cs" />
+    <Compile Include="gtk-gui\SpriteSheetAnalyzer.MainWindow2.cs" />
+    <Compile Include="Helpers\CleanImageHelper.cs" />
+    <Compile Include="Helpers\LinkIslandsHelper.cs" />
+    <Compile Include="Helpers\RemoveBackgroundColorHelper.cs" />
+    <Compile Include="Actions\AnalyzeAction.cs" />
+    <Compile Include="Objects\Fit.cs" />
+    <Compile Include="Objects\Island.cs" />
+    <Compile Include="Modules\CheckerPattern.cs" />
+    <Compile Include="Modules\Analyzer.cs" />
+    <Compile Include="Controls\IslandEditor.cs" />
+    <Compile Include="Windows\MainWindow.cs" />
+    <Compile Include="Windows\MainWindow2.cs" />
+    <Compile Include="UnitTests\Tests.cs" />
+    <Compile Include="Actions\CleanAction.cs" />
+    <Compile Include="Actions\RemoveBackgroundAction.cs" />
+    <Compile Include="Actions\CopyToClipboardAction.cs" />
+    <Compile Include="Actions\RefreshIslandsOutputAction.cs" />
+    <Compile Include="Application\Act.cs" />
+    <Compile Include="Application\App.cs" />
+    <Compile Include="Application\Main.cs" />
+    <Compile Include="Application\UI.cs" />
+    <Compile Include="Application\UIEventArgs.cs" />
+    <Compile Include="Actions\ProcessAction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -78,4 +90,14 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Actions\" />
+    <Folder Include="Objects\" />
+    <Folder Include="Modules\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Windows\" />
+    <Folder Include="UnitTests\" />
+    <Folder Include="Application\" />
+  </ItemGroup>
 </Project>
