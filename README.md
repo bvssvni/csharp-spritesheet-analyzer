@@ -5,7 +5,7 @@ Analyzes a horizontal sprite sheet sequence and finds offset + width.
 BSD license.  
 For version log, view the individual files.  
 
-![Example sprite](/SpriteSheetAnalyzer/bin/Debug/idle.png)
+![Example sprite](https://github.com/bvssvni/csharp-spritesheet-analyzer/blob/master/SpriteSheetAnalyzer/bin/Debug/idle.png)
 
 This project uses group-oriented programming framework "Play",  
 in case you need to the Play.dll file to run.  
