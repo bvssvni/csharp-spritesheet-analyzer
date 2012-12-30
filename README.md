@@ -1,7 +1,7 @@
 Sprite Sheet Analyzer
 ===========================
 
-Analyzes a horizontal sprite sheet sequence and finds offset + width.  
+Analyze animated sprite sheets.  
 BSD license.  
 For version log, view the individual files.  
 
