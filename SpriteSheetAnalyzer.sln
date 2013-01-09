@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteSheetAnalyzer", "SpriteSheetAnalyzer\SpriteSheetAnalyzer.csproj", "{02FA1EA9-4B0A-4704-8284-08F3DFA05BFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "..\csharp-utils\Utils\Utils.csproj", "{11CA980F-72FF-42DE-8B59-C9A77C2AF7DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{02FA1EA9-4B0A-4704-8284-08F3DFA05BFE}.Debug|x86.Build.0 = Debug|x86
 		{02FA1EA9-4B0A-4704-8284-08F3DFA05BFE}.Release|x86.ActiveCfg = Release|x86
 		{02FA1EA9-4B0A-4704-8284-08F3DFA05BFE}.Release|x86.Build.0 = Release|x86
+		{11CA980F-72FF-42DE-8B59-C9A77C2AF7DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{11CA980F-72FF-42DE-8B59-C9A77C2AF7DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{11CA980F-72FF-42DE-8B59-C9A77C2AF7DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{11CA980F-72FF-42DE-8B59-C9A77C2AF7DA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SpriteSheetAnalyzer\SpriteSheetAnalyzer.csproj

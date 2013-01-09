@@ -41,9 +41,6 @@
     <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="Play">
-      <HintPath>..\..\csharp-play\Play\bin\Debug\Play.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework" />
   </ItemGroup>
   <ItemGroup>
@@ -101,5 +98,11 @@
     <Folder Include="Windows\" />
     <Folder Include="UnitTests\" />
     <Folder Include="Application\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\csharp-utils\Utils\Utils.csproj">
+      <Project>{11CA980F-72FF-42DE-8B59-C9A77C2AF7DA}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

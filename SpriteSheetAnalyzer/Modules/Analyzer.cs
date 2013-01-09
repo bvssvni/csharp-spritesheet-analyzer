@@ -32,7 +32,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using Gdk;
-using Play;
+using Utils;
 
 namespace SpriteSheetAnalyzer
 {
