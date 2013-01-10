@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Gdk;
+using Utils;
 
 namespace SpriteSheetAnalyzer
 {
@@ -20,7 +21,7 @@ namespace SpriteSheetAnalyzer
 		public string Task;
 		public string Output;
 		public Pixbuf Image;
-		public List<Island> Islands;
+		public List<SpriteIsland> Islands;
 
 		// An advisor detects whether an action is possible or not.
 		public delegate bool AdvisorDelegate(Act action);

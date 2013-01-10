@@ -1,13 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="../csharp-utils/Utils/Modules/Sprites/Analyzer.cs">
+    <Files>
+      <File FileName="../csharp-utils/Utils/Modules/Sprites/Analyzer.cs" Line="72" Column="12" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True">
-          <Node name="SpriteSheetAnalyzer" expanded="True" />
+        <State expanded="True">
+          <Node name="SpriteSheetAnalyzer" expanded="True">
+            <Node name="Modules" expanded="True" />
+          </Node>
+          <Node name="Utils" expanded="True" selected="True">
+            <Node name="Modules" expanded="True">
+              <Node name="Sprites" expanded="True" />
+            </Node>
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True" selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -15,9 +28,6 @@
       </Pad>
       <Pad Id="ConnectionManagerPad">
         <State selected="True" />
-      </Pad>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

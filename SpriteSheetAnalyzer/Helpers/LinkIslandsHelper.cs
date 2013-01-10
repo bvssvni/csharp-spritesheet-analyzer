@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Gdk;
+using Utils;
 
 namespace SpriteSheetAnalyzer
 {
 	public class LinkIslandsHelper
 	{
-		private List<Island> m_islands;
+		private List<SpriteIsland> m_islands;
 		private bool m_startSet = false;
 		private bool m_endSet = false;
 		private int m_startx, m_starty;
@@ -16,14 +17,14 @@ namespace SpriteSheetAnalyzer
 		{
 		}
 
-		public void Step1_SetIslands(List<Island> islands) {
+		public void Step1_SetIslands(List<SpriteIsland> islands) {
 			m_islands = islands;
 		}
 
 		public void Step2_SetStart(int x, int y) {
 			if (m_islands == null) return;
 
-			int hitIndex = Island.HitIndex(m_islands, x, y);
+			int hitIndex = SpriteIsland.HitIndex(m_islands, x, y);
 			m_startx = x;
 			m_starty = y;
 			m_startSet = hitIndex >= 0;
@@ -52,13 +53,13 @@ namespace SpriteSheetAnalyzer
 			if (!m_startSet) return;
 			if (!m_endSet) return;
 
-			int startHitIndex = Island.HitIndex(m_islands, m_startx, m_starty);
+			int startHitIndex = SpriteIsland.HitIndex(m_islands, m_startx, m_starty);
 			if (startHitIndex == -1) return;
-			int endHitIndex = Island.HitIndex(m_islands, m_endx, m_endy);
+			int endHitIndex = SpriteIsland.HitIndex(m_islands, m_endx, m_endy);
 			if (endHitIndex == -1) return;
 
-			Island.Join(m_islands, startHitIndex, endHitIndex);
-			Island.JoinOverlaps(m_islands);
+			SpriteIsland.Join(m_islands, startHitIndex, endHitIndex);
+			SpriteIsland.JoinOverlaps(m_islands);
 		}
 	}
 }

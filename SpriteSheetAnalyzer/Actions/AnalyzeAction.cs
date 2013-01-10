@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Gdk;
+using Utils;
 
 namespace SpriteSheetAnalyzer
 {
@@ -41,7 +42,7 @@ namespace SpriteSheetAnalyzer
 		public static void AnalyzeHorizontal(App app)
 		{
 			app.Task = "Analyze horizontal";
-			var list = SpriteSheetAnalyzer.Analyzer.FindFit(Analyzer.TransparentColumns(app.Image));
+			var list = SpriteAnalyzer.FindFit(SpriteAnalyzer.TransparentColumns(app.Image));
 			if (list.Count == 0) {
 				app.Output = "(Did not found any sprite frames)";
 				app.UI(UI.Output);
@@ -62,7 +63,7 @@ namespace SpriteSheetAnalyzer
 		public static void AnalyzeVertical(App app)
 		{
 			app.Task = "Analyze vertical";
-			var list = SpriteSheetAnalyzer.Analyzer.FindFit(Analyzer.TransparentRows(app.Image));
+			var list = SpriteAnalyzer.FindFit(SpriteAnalyzer.TransparentRows(app.Image));
 			if (list.Count == 0) {
 				app.Output = "(Did not found any sprite frames)";
 				app.UI(UI.Output);
@@ -82,7 +83,7 @@ namespace SpriteSheetAnalyzer
 
 		public static void AnalyzeIslands(App app)
 		{
-			var rectangles = SpriteSheetAnalyzer.Analyzer.FindIslands(app.Image);
+			var rectangles = SpriteAnalyzer.FindIslands(app.Image);
 			if (rectangles.Count == 0) {
 				app.Output = "(Did not found any island)";
 				app.UI(UI.Output);
